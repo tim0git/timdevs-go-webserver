@@ -26,9 +26,7 @@ func TestReturnsStatus200(t *testing.T) {
 
 	res := w.Result()
 
-	if res.StatusCode != http.StatusOK {
-		t.Errorf("Expected status code %d, got %d", http.StatusOK, res.StatusCode)
-	}
+	assert.Equal(t, http.StatusOK, res.StatusCode)
 }
 
 func TestReturnsHTML(t *testing.T) {
