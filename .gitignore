@@ -23,4 +23,3 @@ go.work
 # JetBrains IDE project file
 /.idea/
 /main
-/src/server/static/index.html
