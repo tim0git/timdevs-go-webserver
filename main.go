@@ -1,19 +1,16 @@
 package main
 
 import (
+	"fmt"
 	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 )
 
-var port = ":8080"
+var port = os.Getenv("PORT")
 
 func init() {
-	// Log as JSON instead of the default ASCII formatter.
 	log.SetFormatter(&log.JSONFormatter{})
-
-	// Output to stdout instead of the default stderr
-	// Can be any io.Writer, see below for File example
 	log.SetOutput(os.Stdout)
 }
 
@@ -30,7 +27,7 @@ func logger(r *http.Request) {
 
 func staticWebServer(w http.ResponseWriter, r *http.Request) {
 	logger(r)
-	http.ServeFile(w, r, "./static/index.html")
+	http.ServeFile(w, r, "static/"+r.URL.Path)
 }
 
 func startServer(server *http.Server) {
@@ -45,9 +42,9 @@ func startServer(server *http.Server) {
 
 func main() {
 	http.HandleFunc("/", staticWebServer)
-
+	Addr := fmt.Sprintf(":%s", port)
 	server := &http.Server{
-		Addr: port,
+		Addr: Addr,
 	}
 
 	startServer(server)
