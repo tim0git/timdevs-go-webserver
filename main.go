@@ -55,7 +55,7 @@ func handleFileNotFound(fullPath string, r *http.Request) {
 	}
 }
 
-func staticWebServer(w http.ResponseWriter, r *http.Request) {
+func serveStaticAssets(w http.ResponseWriter, r *http.Request) {
 	logIncomingRequest(r)
 
 	fs := http.FileServer(http.Dir(FSPATH))
@@ -86,7 +86,7 @@ func startServer(server *http.Server) {
 }
 
 func main() {
-	http.HandleFunc("/", staticWebServer)
+	http.HandleFunc("/", serveStaticAssets)
 
 	Addr := fmt.Sprintf(":%s", PORT)
 
