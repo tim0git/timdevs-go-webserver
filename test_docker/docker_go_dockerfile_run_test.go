@@ -19,7 +19,6 @@ func removeContainer(t *testing.T, id string) {
 
 func TestStartsWithoutErrors(t *testing.T) {
 	t.Parallel()
-
 	// append timestamp to container name to allow running tests in parallel
 	name := "inspect-test-" + random.UniqueId()
 

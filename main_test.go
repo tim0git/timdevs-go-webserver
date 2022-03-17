@@ -29,6 +29,17 @@ func TestReturnsStatus200(t *testing.T) {
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 }
 
+func TestReturnsStatus200OnAnUnknownPath(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/unknown/", nil)
+	w := httptest.NewRecorder()
+
+	staticWebServer(w, req)
+
+	res := w.Result()
+
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+}
+
 func TestReturnsContentTypeHTMLOnRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	w := httptest.NewRecorder()
@@ -73,7 +84,7 @@ func TestLogsRequestsToStdOut(t *testing.T) {
 	assert.Contains(t, stdOut, "\"level\":\"info\"")
 }
 
-func TestReturns404OnAnyPathOtherThanRoot(t *testing.T) {
+func TestReturnsHTMLOnAnyPathOtherThanRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/sainsburysbank/", nil)
 	w := httptest.NewRecorder()
 
@@ -81,5 +92,27 @@ func TestReturns404OnAnyPathOtherThanRoot(t *testing.T) {
 
 	res := w.Result()
 
-	assert.Equal(t, http.StatusNotFound, res.StatusCode)
+	assert.Equal(t, "text/html; charset=utf-8", res.Header.Get("Content-Type"))
+}
+
+func TestReturnsContentTypeCSSOnAnyPathOtherThanRoot(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/unknown/temp.css", nil)
+	w := httptest.NewRecorder()
+
+	staticWebServer(w, req)
+
+	res := w.Result()
+
+	assert.Equal(t, "text/css; charset=utf-8", res.Header.Get("Content-Type"))
+}
+
+func TestReturnsContentTypeGearPNGOnAnyPathOtherRoot(t *testing.T) {
+	req := httptest.NewRequest(http.MethodGet, "/unknown/gear.png", nil)
+	w := httptest.NewRecorder()
+
+	staticWebServer(w, req)
+
+	res := w.Result()
+
+	assert.Equal(t, "image/png", res.Header.Get("Content-Type"))
 }
