@@ -22,7 +22,7 @@ func TestReturnsStatus200(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -33,7 +33,7 @@ func TestReturnsStatus200OnAnUnknownPath(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/unknown/", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -44,7 +44,7 @@ func TestReturnsContentTypeHTMLOnRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -55,7 +55,7 @@ func TestReturnsContentTypeCSSOnRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/temp.css", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -66,7 +66,7 @@ func TestReturnsContentTypeGearPNGOnRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/gear.png", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -78,7 +78,7 @@ func TestLogsRequestsToStdOut(t *testing.T) {
 	w := httptest.NewRecorder()
 
 	stdOut := captureOutput(func() {
-		staticWebServer(w, req)
+		serveStaticAssets(w, req)
 	})
 
 	assert.Contains(t, stdOut, "\"level\":\"info\"")
@@ -88,7 +88,7 @@ func TestReturnsHTMLOnAnyPathOtherThanRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/sainsburysbank/", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -99,7 +99,7 @@ func TestReturnsContentTypeCSSOnAnyPathOtherThanRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/unknown/temp.css", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
@@ -110,7 +110,7 @@ func TestReturnsContentTypeGearPNGOnAnyPathOtherRoot(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/unknown/gear.png", nil)
 	w := httptest.NewRecorder()
 
-	staticWebServer(w, req)
+	serveStaticAssets(w, req)
 
 	res := w.Result()
 
