@@ -2,13 +2,15 @@
 ## Build
 ##
 
-FROM golang:1.16-buster AS build
+FROM golang:1.19.0-buster AS build
+
+ENV GOARCH="amd64"
 
 WORKDIR /app
 
 COPY go.mod .
 COPY go.sum .
-RUN go mod download
+RUN go get all
 
 COPY *.go ./
 
@@ -22,7 +24,7 @@ FROM gcr.io/distroless/base-debian10
 
 WORKDIR /
 
-COPY static static
+COPY build build
 COPY --from=build /go-server /go-server
 
 EXPOSE 8443
