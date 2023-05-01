@@ -4,7 +4,7 @@
 
 FROM golang:1.19.0-buster AS build
 
-ENV GOARCH="amd64"
+ENV GOARCH="arm64"
 
 WORKDIR /app
 
