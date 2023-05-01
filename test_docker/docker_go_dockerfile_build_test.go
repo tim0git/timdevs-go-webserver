@@ -9,7 +9,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/docker"
 )
 
-const tag = "digital-devops-go-maintenance-page"
+const tag = "devops-go-maintenance-page"
 
 func TestBuildsWithoutErrors(t *testing.T) {
 	buildOptions := &docker.BuildOptions{
